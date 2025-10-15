@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados: {{ question.question_text }} - Sistema de Encuestas</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Resultados de la Encuesta</h1>
+        </div>
+        
+        <div class="content">
+            <div class="question">
+                <h2>{{ question.question_text }}</h2>
+                
+                <div class="total-votes">
+                    <h3>Total de votos</h3>
+                    <p>{{ question.total_votes }} voto{{ question.total_votes|pluralize }}</p>
+                </div>
+                
+                <ul class="results-list">
+                    {% for choice in question.choice_set.all %}
+                        <li class="result-item">
+                            <div class="choice-text">{{ choice.choice_text }}</div>
+                            <div class="vote-count">
+                                {{ choice.votes }} voto{{ choice.votes|pluralize }}
+                                {% if question.total_votes > 0 %}
+                                    ({{ choice.votes|floatformat:1 }}%)
+                                {% endif %}
+                            </div>
+                            {% if question.total_votes > 0 %}
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: {% widthratio choice.votes question.total_votes 100 %}%"></div>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="actions">
+                    <a href="{% url 'polls:detail' question.id %}" class="action-button secondary">
+                        Votar de nuevo
+                    </a>
+                    <a href="{% url 'polls:index' %}" class="action-button">
+                        Ver todas las encuestas
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

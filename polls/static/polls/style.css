@@ -1,0 +1,417 @@
+/* Estilos para el sistema de encuestas Django */
+
+/* Variables CSS para colores y espaciado */
+:root {
+    --primary-color: #4facfe;
+    --secondary-color: #00f2fe;
+    --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --card-bg: white;
+    --text-color: #333;
+    --text-muted: #666;
+    --border-color: #e9ecef;
+    --success-color: #28a745;
+    --error-color: #dc3545;
+    --warning-color: #ffc107;
+    --shadow: 0 20px 40px rgba(0,0,0,0.1);
+    --border-radius: 15px;
+    --transition: all 0.2s ease;
+}
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gradient-bg);
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+/* Contenido */
+.content {
+    padding: 40px;
+}
+
+/* Sección de introducción */
+.intro {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.intro h2 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 2em;
+}
+
+.intro p {
+    color: var(--text-muted);
+    font-size: 1.1em;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Lista de encuestas */
+.polls-section {
+    margin-top: 30px;
+}
+
+.polls-section h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.polls-list {
+    list-style: none;
+}
+
+.polls-list li {
+    background: #f8f9fa;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.polls-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.polls-list a {
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.polls-list a:hover {
+    color: var(--primary-color);
+}
+
+/* Mensaje cuando no hay encuestas */
+.no-polls {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 40px;
+}
+
+/* Características */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature {
+    text-align: center;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: var(--transition);
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.feature h4 {
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.feature p {
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Pregunta */
+.question {
+    margin-bottom: 30px;
+}
+
+.question h2 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* Mensajes de error */
+.error-message {
+    background: #fee;
+    color: var(--error-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--error-color);
+}
+
+/* Opciones de respuesta */
+.choices {
+    list-style: none;
+}
+
+.choices li {
+    margin-bottom: 15px;
+}
+
+.choice-label {
+    display: block;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.choice-label:hover {
+    background: #e9ecef;
+    border-color: var(--primary-color);
+}
+
+.choice-input {
+    margin-right: 10px;
+}
+
+.choice-input:checked + .choice-label {
+    background: #e3f2fd;
+    border-color: var(--primary-color);
+    color: #1976d2;
+}
+
+/* Botones */
+.vote-button, .action-button {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.vote-button:hover, .action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+}
+
+.action-button.secondary {
+    background: #6c757d;
+}
+
+.action-button.secondary:hover {
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+/* Enlaces */
+.back-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-top: 20px;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Resultados */
+.results-list {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.result-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.choice-text {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.vote-count {
+    color: var(--text-muted);
+    font-size: 0.9em;
+}
+
+/* Barra de progreso */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border-color);
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    transition: width 0.3s ease;
+}
+
+/* Total de votos */
+.total-votes {
+    text-align: center;
+    padding: 20px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.total-votes h3 {
+    color: #1976d2;
+    margin-bottom: 5px;
+}
+
+.total-votes p {
+    color: var(--text-muted);
+    font-size: 1.1em;
+}
+
+/* Acciones */
+.actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2em;
+    }
+    
+    .content {
+        padding: 20px;
+    }
+    
+    .features {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-button {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+}
+
+/* Utilidades */
+.text-center {
+    text-align: center;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Estados de carga */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--primary-color);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

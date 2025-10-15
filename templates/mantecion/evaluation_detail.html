@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación: {{ evaluation.question_text }} - Sistema de Mantenimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-button {
+            background: #ffffff;
+            color: #34495e;
+            padding: 10px 20px;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button:hover {
+            background: #34495e;
+            color: #ffffff;
+            border-color: #34495e;
+        }
+        
+        .evaluation-header {
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .evaluation-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .evaluation-context {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .evaluation-form {
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .choices-list {
+            list-style: none;
+        }
+        
+        .choice-item {
+            margin-bottom: 12px;
+        }
+        
+        .choice-label {
+            display: block;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .choice-label:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+        
+        .choice-input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .choice-input:checked + .choice-label {
+            background: #e3f2fd;
+            border-color: #3498db;
+            color: #1976d2;
+            font-weight: 600;
+        }
+        
+        .choice-input:checked + .choice-label::after {
+            content: "✓";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .submit-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            width: 100%;
+        }
+        
+        .submit-button:hover {
+            background: #2980b9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+        
+        .action-button:hover {
+            background: #7f8c8d;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            color: #1565c0;
+        }
+        
+        .info-box h4 {
+            margin-bottom: 10px;
+            color: #0d47a1;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu {
+                justify-content: center;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-menu">
+            <a href="{% url 'mantencion:dashboard' %}" class="nav-button">Dashboard</a>
+            <a href="{% url 'mantencion:vehicle_list' %}" class="nav-button">Vehículos</a>
+            <a href="{% url 'mantencion:maintenance_list' %}" class="nav-button">Mantenimientos</a>
+            <a href="{% url 'mantencion:evaluation_list' %}" class="nav-button">Evaluaciones</a>
+            <a href="/admin/" class="nav-button">Administración</a>
+        </div>
+        
+        <div class="evaluation-header">
+            <div class="evaluation-title">Evaluación de Servicio</div>
+            <div class="evaluation-context">
+                Mantenimiento: {{ evaluation.maintenance.maintenance_type.name }}<br>
+                Vehículo: {{ evaluation.maintenance.vehicle.get_full_name }}
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h4>📝 Tu opinión es importante</h4>
+            <p>Esta evaluación nos ayuda a mejorar continuamente nuestros servicios de mantenimiento. Tu feedback es valioso para nosotros.</p>
+        </div>
+        
+        <div class="evaluation-form">
+            <form action="{% url 'mantencion:vote_evaluation' evaluation.id %}" method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="form-label">{{ evaluation.question_text }}</label>
+                    
+                    {% if error_message %}
+                    <div class="error-message">
+                        <strong>Error:</strong> {{ error_message }}
+                    </div>
+                    {% endif %}
+                    
+                    <ul class="choices-list">
+                        {% for choice in evaluation.evaluationchoice_set.all %}
+                        <li class="choice-item">
+                            <input type="radio" 
+                                   name="choice" 
+                                   id="choice{{ forloop.counter }}" 
+                                   value="{{ choice.id }}"
+                                   class="choice-input">
+                            <label for="choice{{ forloop.counter }}" class="choice-label">
+                                {{ choice.choice_text }}
+                            </label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <button type="submit" class="submit-button">
+                    Enviar Evaluación
+                </button>
+            </form>
+            
+            <div class="action-buttons">
+                <a href="{% url 'mantencion:evaluation_list' %}" class="action-button">
+                    Volver a Evaluaciones
+                </a>
+                <a href="{% url 'mantencion:maintenance_detail' evaluation.maintenance.id %}" class="action-button">
+                    Ver Mantenimiento
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

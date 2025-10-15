@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Encuestas - Django</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 Sistema de Encuestas</h1>
+            <p>Una aplicación Django moderna para crear y gestionar encuestas</p>
+        </div>
+        
+        <div class="content">
+            <div class="intro">
+                <h2>¡Bienvenido!</h2>
+                <p>
+                    Este es un sistema de encuestas desarrollado con Django siguiendo el tutorial oficial. 
+                    Aquí puedes crear, votar y ver resultados de encuestas de manera interactiva y moderna.
+                </p>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">📊</div>
+                    <h4>Crear Encuestas</h4>
+                    <p>Administra preguntas y opciones de respuesta fácilmente</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🗳️</div>
+                    <h4>Votar</h4>
+                    <p>Los usuarios pueden votar en las encuestas disponibles</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <h4>Ver Resultados</h4>
+                    <p>Visualiza estadísticas y resultados en tiempo real</p>
+                </div>
+            </div>
+            
+            <div class="polls-section">
+                <h3>Encuestas Disponibles</h3>
+                {% if latest_question_list %}
+                    <ul class="polls-list">
+                        {% for question in latest_question_list %}
+                            <li>
+                                <a href="{% url 'polls:detail' question.id %}">
+                                    {{ question.question_text }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="no-polls">
+                        <p>No hay encuestas disponibles en este momento.</p>
+                        <p>¡Crea algunas desde el panel de administración!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

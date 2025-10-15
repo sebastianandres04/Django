@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Mantenimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background:
+                radial-gradient(1200px 600px at 0% -10%, rgba(37, 99, 235, 0.10), transparent 60%),
+                radial-gradient(1200px 600px at 100% 110%, rgba(147, 51, 234, 0.10), transparent 60%),
+                linear-gradient(180deg, #0b1220 0%, #0a0f1c 100%);
+            color: #e5e7eb;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px;
+        }
+        
+        .header {
+            background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 36px;
+            margin-bottom: 26px;
+            text-align: center;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.60), 0 2px 6px rgba(2, 6, 23, 0.40);
+        }
+        
+        .header h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #f1f5f9;
+            letter-spacing: 0.2px;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-button {
+            background: #0b1220;
+            color: #e2e8f0;
+            padding: 10px 18px;
+            border: 1px solid #243146;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(2, 6, 23, 0.45);
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(180deg, #2d6cdf 0%, #1f4db8 100%);
+            color: #ffffff;
+            border-color: #2d6cdf;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(45, 108, 223, 0.35);
+        }
+        
+        .alert {
+            background: linear-gradient(180deg, rgba(250, 204, 21, 0.10) 0%, rgba(250, 204, 21, 0.08) 100%);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            border-left: 4px solid #f39c12;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            color: #fde68a;
+            box-shadow: 0 6px 16px rgba(250, 204, 21, 0.18);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+        
+        .stat-card {
+            position: relative;
+            background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 22px;
+            text-align: center;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.60), 0 2px 6px rgba(2, 6, 23, 0.40);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        
+        .stat-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            background: linear-gradient(90deg, #2d6cdf, #9b59b6);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 36px rgba(2, 6, 23, 0.70), 0 6px 14px rgba(2, 6, 23, 0.50);
+        }
+
+        .stat-number {
+            font-size: 34px;
+            font-weight: 800;
+            color: #e2e8f0;
+            margin-bottom: 6px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .stat-label {
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        
+        .main-content, .sidebar-card {
+            background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.60), 0 2px 6px rgba(2, 6, 23, 0.40);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .section-title {
+            position: relative;
+            color: #e5e7eb;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #172132;
+        }
+        .section-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            height: 2px;
+            width: 60px;
+            background: linear-gradient(90deg, #2d6cdf, #9b59b6);
+            border-radius: 2px;
+        }
+        
+        .list-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #172132;
+            transition: background-color 0.15s ease, padding-left 0.15s ease;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+        }
+        .list-item:hover {
+            background: rgba(45, 108, 223, 0.06);
+            padding-left: 6px;
+        }
+        
+        .item-title {
+            font-weight: 600;
+            color: #e5e7eb;
+            margin-bottom: 4px;
+        }
+        
+        .item-title a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        .item-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .item-meta {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 8px;
+        }
+        
+        .status-scheduled {
+            background: rgba(250, 204, 21, 0.15);
+            color: #fde68a;
+        }
+        
+        .status-completed {
+            background: rgba(16, 185, 129, 0.16);
+            color: #86efac;
+        }
+        
+        .status-overdue {
+            background: rgba(239, 68, 68, 0.16);
+            color: #fca5a5;
+        }
+        
+        .empty-state {
+            color: #94a3b8;
+            text-align: center;
+            padding: 40px 20px;
+            font-style: italic;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .quick-actions .nav-button {
+            text-align: center;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            .nav-menu {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema de Mantenimiento</h1>
+            <p>Gestión de vehículos y servicios de mantenimiento</p>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="{% url 'mantencion:vehicle_list' %}" class="nav-button">Vehículos</a>
+            <a href="{% url 'mantencion:maintenance_list' %}" class="nav-button">Mantenimientos</a>
+            <a href="{% url 'mantencion:evaluation_list' %}" class="nav-button">Evaluaciones</a>
+            <a href="/admin/" class="nav-button">Administración</a>
+            <a href="{% url 'polls:index' %}" class="nav-button">Encuestas</a>
+        </div>
+        
+        {% if overdue_maintenances > 0 %}
+        <div class="alert">
+            <strong>Atención:</strong> Tienes {{ overdue_maintenances }} mantenimiento{{ overdue_maintenances|pluralize }} atrasado{{ overdue_maintenances|pluralize }}.
+            <a href="{% url 'mantencion:maintenance_list' %}?status=scheduled" style="color: #856404; text-decoration: underline;">Ver detalles</a>
+        </div>
+        {% endif %}
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_vehicles }}</div>
+                <div class="stat-label">Vehículos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ total_maintenances }}</div>
+                <div class="stat-label">Mantenimientos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ pending_maintenances }}</div>
+                <div class="stat-label">Pendientes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ recent_maintenances }}</div>
+                <div class="stat-label">Completados (7 días)</div>
+            </div>
+        </div>
+        
+        <div class="content-grid">
+            <div class="main-content">
+                <h2 class="section-title">Próximos Mantenimientos</h2>
+                {% if upcoming_maintenances %}
+                    {% for maintenance in upcoming_maintenances %}
+                    <div class="list-item">
+                        <div class="item-title">
+                            <a href="{% url 'mantencion:maintenance_detail' maintenance.id %}">
+                                {{ maintenance.vehicle.get_full_name }}
+                            </a>
+                        </div>
+                        <div class="item-meta">
+                            {{ maintenance.maintenance_type.name }} - 
+                            {{ maintenance.scheduled_date|date:"d/m/Y H:i" }}
+                            <span class="status-badge status-scheduled">{{ maintenance.get_status_display }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        No hay mantenimientos programados para los próximos 7 días.
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3 class="section-title">Vehículos Recientes</h3>
+                    {% if recent_vehicles %}
+                        {% for vehicle in recent_vehicles %}
+                        <div class="list-item">
+                            <div class="item-title">
+                                <a href="{% url 'mantencion:vehicle_detail' vehicle.id %}">
+                                    {{ vehicle.get_full_name }}
+                                </a>
+                            </div>
+                            <div class="item-meta">
+                                {{ vehicle.license_plate }} - {{ vehicle.owner_name }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            No hay vehículos registrados.
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3 class="section-title">Acciones Rápidas</h3>
+                    <div class="quick-actions">
+                        <a href="/admin/mantencion/vehicle/add/" class="nav-button">Nuevo Vehículo</a>
+                        <a href="/admin/mantencion/maintenance/add/" class="nav-button">Nuevo Mantenimiento</a>
+                        <a href="/admin/mantencion/maintenancetype/add/" class="nav-button">Nuevo Tipo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

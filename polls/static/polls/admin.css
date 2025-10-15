@@ -1,0 +1,316 @@
+/* Estilos personalizados para el panel de administración */
+
+/* Variables CSS para el admin */
+:root {
+    --admin-primary: #007bff;
+    --admin-secondary: #6c757d;
+    --admin-success: #28a745;
+    --admin-warning: #ffc107;
+    --admin-danger: #dc3545;
+    --admin-info: #17a2b8;
+    --admin-light: #f8f9fa;
+    --admin-dark: #343a40;
+    --admin-border-radius: 8px;
+    --admin-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --admin-transition: all 0.2s ease;
+}
+
+/* Mejoras generales del admin */
+.admin-header {
+    background: linear-gradient(135deg, var(--admin-primary) 0%, #0056b3 100%);
+    color: white;
+    padding: 20px;
+    border-radius: var(--admin-border-radius);
+    margin-bottom: 20px;
+}
+
+.admin-header h1 {
+    margin: 0;
+    font-size: 2em;
+    font-weight: 300;
+}
+
+/* Tarjetas de estadísticas */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.admin-stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    text-align: center;
+    transition: var(--admin-transition);
+    border-left: 4px solid var(--admin-primary);
+}
+
+.admin-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.admin-stat-number {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--admin-primary);
+    margin-bottom: 5px;
+}
+
+.admin-stat-label {
+    color: var(--admin-secondary);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Mejoras en las tablas del admin */
+.admin-table {
+    background: white;
+    border-radius: var(--admin-border-radius);
+    overflow: hidden;
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-table th {
+    background: var(--admin-light);
+    color: var(--admin-dark);
+    font-weight: 600;
+    padding: 15px;
+    border-bottom: 2px solid var(--admin-primary);
+}
+
+.admin-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.admin-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* Botones personalizados */
+.admin-btn {
+    background: var(--admin-primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--admin-border-radius);
+    cursor: pointer;
+    transition: var(--admin-transition);
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.admin-btn:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+}
+
+.admin-btn-success {
+    background: var(--admin-success);
+}
+
+.admin-btn-success:hover {
+    background: #1e7e34;
+}
+
+.admin-btn-warning {
+    background: var(--admin-warning);
+    color: var(--admin-dark);
+}
+
+.admin-btn-warning:hover {
+    background: #e0a800;
+}
+
+.admin-btn-danger {
+    background: var(--admin-danger);
+}
+
+.admin-btn-danger:hover {
+    background: #c82333;
+}
+
+/* Alertas personalizadas */
+.admin-alert {
+    padding: 15px 20px;
+    border-radius: var(--admin-border-radius);
+    margin: 15px 0;
+    border-left: 4px solid;
+}
+
+.admin-alert-info {
+    background: #d1ecf1;
+    border-color: var(--admin-info);
+    color: #0c5460;
+}
+
+.admin-alert-success {
+    background: #d4edda;
+    border-color: var(--admin-success);
+    color: #155724;
+}
+
+.admin-alert-warning {
+    background: #fff3cd;
+    border-color: var(--admin-warning);
+    color: #856404;
+}
+
+.admin-alert-danger {
+    background: #f8d7da;
+    border-color: var(--admin-danger);
+    color: #721c24;
+}
+
+/* Formularios mejorados */
+.admin-form-group {
+    margin-bottom: 20px;
+}
+
+.admin-form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: var(--admin-dark);
+}
+
+.admin-form-control {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #e9ecef;
+    border-radius: var(--admin-border-radius);
+    font-size: 1em;
+    transition: var(--admin-transition);
+}
+
+.admin-form-control:focus {
+    outline: none;
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+/* Navegación mejorada */
+.admin-nav {
+    background: white;
+    border-radius: var(--admin-border-radius);
+    box-shadow: var(--admin-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.admin-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.admin-nav-item {
+    margin: 0;
+}
+
+.admin-nav-link {
+    color: var(--admin-primary);
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: var(--admin-border-radius);
+    transition: var(--admin-transition);
+    font-weight: 500;
+}
+
+.admin-nav-link:hover {
+    background: var(--admin-light);
+    color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .admin-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .admin-nav-list {
+        flex-direction: column;
+    }
+    
+    .admin-table {
+        overflow-x: auto;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-fade-in {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Estados de carga */
+.admin-loading {
+    position: relative;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.admin-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--admin-primary);
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Utilidades */
+.admin-text-center {
+    text-align: center;
+}
+
+.admin-text-right {
+    text-align: right;
+}
+
+.admin-mb-20 {
+    margin-bottom: 20px;
+}
+
+.admin-mt-20 {
+    margin-top: 20px;
+}
+
+.admin-hidden {
+    display: none;
+}
+
+.admin-visible {
+    display: block;
+}

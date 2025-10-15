@@ -1,0 +1,131 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .admin-welcome {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .admin-welcome h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        
+        .admin-welcome p {
+            margin: 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .admin-quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .quick-stat {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .quick-stat:hover {
+            transform: translateY(-5px);
+        }
+        
+        .quick-stat-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .quick-stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+        
+        .quick-stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .admin-tips {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .admin-tips h3 {
+            margin: 0 0 15px 0;
+            color: #1976d2;
+        }
+        
+        .admin-tips ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .admin-tips li {
+            margin-bottom: 8px;
+            color: #333;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="admin-welcome">
+        <h1>🏆 Sistema de Encuestas Django</h1>
+        <p>Panel de administración moderno y funcional</p>
+    </div>
+    
+    <div class="admin-quick-stats">
+        <div class="quick-stat">
+            <div class="quick-stat-icon">📊</div>
+            <div class="quick-stat-number">{{ app_list.0.models.0.admin_url|length|default:"0" }}</div>
+            <div class="quick-stat-label">Encuestas Activas</div>
+        </div>
+        <div class="quick-stat">
+            <div class="quick-stat-icon">🗳️</div>
+            <div class="quick-stat-number">{{ app_list.0.models.1.admin_url|length|default:"0" }}</div>
+            <div class="quick-stat-label">Opciones Totales</div>
+        </div>
+        <div class="quick-stat">
+            <div class="quick-stat-icon">👥</div>
+            <div class="quick-stat-number">∞</div>
+            <div class="quick-stat-label">Usuarios</div>
+        </div>
+        <div class="quick-stat">
+            <div class="quick-stat-icon">⚡</div>
+            <div class="quick-stat-number">100%</div>
+            <div class="quick-stat-label">Rendimiento</div>
+        </div>
+    </div>
+    
+    <div class="admin-tips">
+        <h3>💡 Consejos para Administradores</h3>
+        <ul>
+            <li><strong>Crear Encuestas:</strong> Usa el panel de Questions para crear nuevas encuestas</li>
+            <li><strong>Gestionar Opciones:</strong> Añade múltiples opciones para cada pregunta</li>
+            <li><strong>Monitorear Resultados:</strong> Revisa las estadísticas de votación regularmente</li>
+            <li><strong>Fechas de Publicación:</strong> Establece fechas realistas para las encuestas</li>
+            <li><strong>Pruebas:</strong> Siempre prueba las encuestas antes de publicarlas</li>
+        </ul>
+    </div>
+    
+    {{ block.super }}
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .admin-dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .admin-dashboard h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.5em;
+        }
+        
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .dashboard-stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .dashboard-stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .dashboard-stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .admin-actions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        
+        .admin-actions h4 {
+            margin: 0 0 10px 0;
+            color: #007bff;
+        }
+        
+        .admin-actions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .admin-actions li {
+            margin-bottom: 5px;
+        }
+        
+        .admin-actions a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .admin-actions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="admin-dashboard">
+        <h2>📊 Panel de Control - Sistema de Encuestas</h2>
+        <p>Gestiona todas las encuestas del sistema desde este panel centralizado.</p>
+        
+        <div class="dashboard-stats">
+            <div class="dashboard-stat">
+                <div class="dashboard-stat-number">{{ cl.result_count|default:"0" }}</div>
+                <div class="dashboard-stat-label">Total Encuestas</div>
+            </div>
+            <div class="dashboard-stat">
+                <div class="dashboard-stat-number">
+                    {% with recent_count=cl.result_list|length %}
+                        {% if recent_count > 0 %}
+                            {{ recent_count }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="dashboard-stat-label">En Lista</div>
+            </div>
+            <div class="dashboard-stat">
+                <div class="dashboard-stat-number">
+                    {% now "H:i" %}
+                </div>
+                <div class="dashboard-stat-label">Hora Actual</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="admin-actions">
+        <h4>🚀 Acciones Rápidas</h4>
+        <ul>
+            <li><a href="{% url 'admin:polls_question_add' %}">➕ Crear Nueva Encuesta</a></li>
+            <li><a href="{% url 'admin:polls_choice_changelist' %}">📝 Gestionar Opciones</a></li>
+            <li><a href="{% url 'polls:index' %}" target="_blank">👁️ Ver Encuestas Públicas</a></li>
+            <li><a href="{% url 'admin:index' %}">🏠 Panel Principal</a></li>
+        </ul>
+    </div>
+    
+    {{ block.super }}
+{% endblock %}

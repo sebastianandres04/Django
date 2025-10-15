@@ -1,0 +1,104 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .admin-custom-styles {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        
+        .admin-help {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .admin-help h4 {
+            margin: 0 0 10px 0;
+            color: #1976d2;
+        }
+        
+        .admin-help ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .admin-help li {
+            margin-bottom: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="admin-custom-styles">
+        <h2>📊 Estadísticas de la Encuesta</h2>
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-number">{{ original.choice_set.count|default:"0" }}</div>
+                <div class="stat-label">Opciones</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ original.total_votes|default:"0" }}</div>
+                <div class="stat-label">Total de Votos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">
+                    {% if original.pub_date %}
+                        {% if original.was_published_recently %}
+                            ✅
+                        {% else %}
+                            ⏰
+                        {% endif %}
+                    {% else %}
+                        ❌
+                    {% endif %}
+                </div>
+                <div class="stat-label">Estado</div>
+            </div>
+        </div>
+        
+        <div class="admin-help">
+            <h4>💡 Consejos para crear una buena encuesta:</h4>
+            <ul>
+                <li><strong>Pregunta clara:</strong> Asegúrate de que la pregunta sea fácil de entender</li>
+                <li><strong>Opciones balanceadas:</strong> Proporciona opciones que cubran todas las posibilidades</li>
+                <li><strong>Fecha de publicación:</strong> Establece una fecha realista para la publicación</li>
+                <li><strong>Múltiples opciones:</strong> Agrega al menos 2-3 opciones para que la encuesta sea útil</li>
+            </ul>
+        </div>
+    </div>
+    
+    {{ block.super }}
+{% endblock %}

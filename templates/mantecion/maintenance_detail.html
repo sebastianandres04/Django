@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mantenimiento: {{ maintenance.maintenance_type.name }} - Sistema de Mantenimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-button {
+            background: #ffffff;
+            color: #34495e;
+            padding: 10px 20px;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-button:hover {
+            background: #34495e;
+            color: #ffffff;
+            border-color: #34495e;
+        }
+        
+        .maintenance-header {
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .maintenance-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .maintenance-vehicle {
+            color: #3498db;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        
+        .status-scheduled {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-in-progress {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .maintenance-info {
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .description-section {
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        
+        .description-text {
+            color: #2c3e50;
+            line-height: 1.8;
+            white-space: pre-line;
+        }
+        
+        .evaluation-section {
+            background: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        
+        .evaluation-content {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .evaluation-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .evaluation-description {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+        
+        .action-button:hover {
+            background: #2980b9;
+        }
+        
+        .action-button.secondary {
+            background: #95a5a6;
+        }
+        
+        .action-button.secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .action-button.success {
+            background: #27ae60;
+        }
+        
+        .action-button.success:hover {
+            background: #219a52;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-menu">
+            <a href="{% url 'mantencion:dashboard' %}" class="nav-button">Dashboard</a>
+            <a href="{% url 'mantencion:vehicle_list' %}" class="nav-button">Vehículos</a>
+            <a href="{% url 'mantencion:maintenance_list' %}" class="nav-button">Mantenimientos</a>
+            <a href="{% url 'mantencion:evaluation_list' %}" class="nav-button">Evaluaciones</a>
+            <a href="/admin/" class="nav-button">Administración</a>
+        </div>
+        
+        <div class="maintenance-header">
+            <div class="maintenance-title">{{ maintenance.maintenance_type.name }}</div>
+            <div class="maintenance-vehicle">
+                <a href="{% url 'mantencion:vehicle_detail' maintenance.vehicle.id %}" style="color: #3498db; text-decoration: none;">
+                    {{ maintenance.vehicle.get_full_name }}
+                </a>
+            </div>
+            <span class="status-badge status-{{ maintenance.status }}">
+                {{ maintenance.get_status_display }}
+            </span>
+        </div>
+        
+        <div class="maintenance-info">
+            <h2 class="section-title">Información del Mantenimiento</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Tipo de Mantenimiento</span>
+                    <span class="info-value">{{ maintenance.maintenance_type.name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Duración Estimada</span>
+                    <span class="info-value">{{ maintenance.maintenance_type.estimated_duration }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Fecha Programada</span>
+                    <span class="info-value">{{ maintenance.scheduled_date|date:"d/m/Y H:i" }}</span>
+                </div>
+                {% if maintenance.start_date %}
+                <div class="info-item">
+                    <span class="info-label">Fecha de Inicio</span>
+                    <span class="info-value">{{ maintenance.start_date|date:"d/m/Y H:i" }}</span>
+                </div>
+                {% endif %}
+                {% if maintenance.completion_date %}
+                <div class="info-item">
+                    <span class="info-label">Fecha de Finalización</span>
+                    <span class="info-value">{{ maintenance.completion_date|date:"d/m/Y H:i" }}</span>
+                </div>
+                {% endif %}
+                {% if maintenance.cost %}
+                <div class="info-item">
+                    <span class="info-label">Costo</span>
+                    <span class="info-value">${{ maintenance.cost|floatformat:0 }}</span>
+                </div>
+                {% endif %}
+                <div class="info-item">
+                    <span class="info-label">Creado</span>
+                    <span class="info-value">{{ maintenance.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Última Actualización</span>
+                    <span class="info-value">{{ maintenance.updated_at|date:"d/m/Y H:i" }}</span>
+                </div>
+            </div>
+        </div>
+        
+        {% if maintenance.description %}
+        <div class="description-section">
+            <h2 class="section-title">Descripción</h2>
+            <div class="description-text">{{ maintenance.description }}</div>
+        </div>
+        {% endif %}
+        
+        {% if maintenance.notes %}
+        <div class="description-section">
+            <h2 class="section-title">Notas</h2>
+            <div class="description-text">{{ maintenance.notes }}</div>
+        </div>
+        {% endif %}
+        
+        {% if evaluation %}
+        <div class="evaluation-section">
+            <h2 class="section-title">Evaluación del Servicio</h2>
+            <div class="evaluation-content">
+                <div class="evaluation-title">{{ evaluation.question_text }}</div>
+                <div class="evaluation-description">
+                    Ayúdanos a mejorar nuestros servicios evaluando este mantenimiento.
+                </div>
+                <div class="action-buttons">
+                    <a href="{% url 'mantencion:evaluation_detail' evaluation.id %}" class="action-button success">
+                        Participar en la Evaluación
+                    </a>
+                    {% if evaluation.total_votes > 0 %}
+                    <a href="{% url 'mantencion:evaluation_results' evaluation.id %}" class="action-button secondary">
+                        Ver Resultados
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="action-buttons">
+            <a href="/admin/mantencion/maintenance/{{ maintenance.id }}/change/" class="action-button">
+                Editar Mantenimiento
+            </a>
+            <a href="{% url 'mantencion:maintenance_list' %}" class="action-button secondary">
+                Volver a Lista
+            </a>
+            <a href="{% url 'mantencion:vehicle_detail' maintenance.vehicle.id %}" class="action-button secondary">
+                Ver Vehículo
+            </a>
+        </div>
+    </div>
+</body>
+</html>

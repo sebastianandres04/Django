@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ question.question_text }} - Sistema de Encuestas</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗳️ Votar en Encuesta</h1>
+        </div>
+        
+        <div class="content">
+            <div class="question">
+                <h2>{{ question.question_text }}</h2>
+                
+                {% if error_message %}
+                    <div class="error-message">
+                        <strong>Error:</strong> {{ error_message }}
+                    </div>
+                {% endif %}
+                
+                <form action="{% url 'polls:vote' question.id %}" method="post">
+                    {% csrf_token %}
+                    <ul class="choices">
+                        {% for choice in question.choice_set.all %}
+                            <li>
+                                <input type="radio" 
+                                       name="choice" 
+                                       id="choice{{ forloop.counter }}" 
+                                       value="{{ choice.id }}"
+                                       class="choice-input">
+                                <label for="choice{{ forloop.counter }}" class="choice-label">
+                                    {{ choice.choice_text }}
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <button type="submit" class="vote-button">
+                        Votar
+                    </button>
+                </form>
+                
+                <a href="{% url 'polls:index' %}" class="back-link">
+                    ← Volver a la lista de encuestas
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

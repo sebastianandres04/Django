@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ vehicle.get_full_name }} - Sistema de Mantenimiento</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background:
+                radial-gradient(1200px 600px at 0% -10%, rgba(37, 99, 235, 0.10), transparent 60%),
+                radial-gradient(1200px 600px at 100% 110%, rgba(147, 51, 234, 0.10), transparent 60%),
+                linear-gradient(180deg, #0b1220 0%, #0a0f1c 100%);
+            color: #e5e7eb;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-button {
+            background: #0b1220;
+            color: #e2e8f0;
+            padding: 10px 18px;
+            border: 1px solid #243146;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(2, 6, 23, 0.45);
+        }
+        
+        .nav-button:hover {
+            background: linear-gradient(180deg, #2d6cdf 0%, #1f4db8 100%);
+            color: #ffffff;
+            border-color: #2d6cdf;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(45, 108, 223, 0.35);
+        }
+        
+        .vehicle-header {
+            background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 30px;
+            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.60), 0 2px 6px rgba(2, 6, 23, 0.40);
+        }
+        
+        .vehicle-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+        }
+        
+        .vehicle-plate {
+            display: inline-block;
+            background: #1f4db8;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .vehicle-info {
+            background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.60), 0 2px 6px rgba(2, 6, 23, 0.40);
+        }
+        
+        .section-title {
+            color: #e5e7eb;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #172132;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        
+        .maintenances-section {
+            background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 24px rgba(2, 6, 23, 0.60), 0 2px 6px rgba(2, 6, 23, 0.40);
+        }
+        
+        .maintenance-item {
+            padding: 15px;
+            border-bottom: 1px solid #172132;
+            transition: background 0.2s ease;
+        }
+        
+        .maintenance-item:hover {
+            background: rgba(45, 108, 223, 0.06);
+        }
+        
+        .maintenance-item:last-child {
+            border-bottom: none;
+        }
+        
+        .maintenance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .maintenance-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-scheduled {
+            background: rgba(250, 204, 21, 0.15);
+            color: #fde68a;
+        }
+        
+        .status-completed {
+            background: rgba(16, 185, 129, 0.16);
+            color: #86efac;
+        }
+        
+        .maintenance-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            background: linear-gradient(180deg, #2d6cdf 0%, #1f4db8 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+            box-shadow: 0 10px 22px rgba(45, 108, 223, 0.35);
+        }
+        
+        .action-button:hover {
+            filter: brightness(1.05);
+        }
+        
+        .action-button.secondary {
+            background: #475569;
+        }
+        
+        .action-button.secondary:hover {
+            background: #64748b;
+        }
+        
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .maintenance-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .maintenance-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .nav-menu {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-menu">
+            <a href="{% url 'mantencion:dashboard' %}" class="nav-button">Dashboard</a>
+            <a href="{% url 'mantencion:vehicle_list' %}" class="nav-button">Vehículos</a>
+            <a href="{% url 'mantencion:maintenance_list' %}" class="nav-button">Mantenimientos</a>
+            <a href="{% url 'mantencion:evaluation_list' %}" class="nav-button">Evaluaciones</a>
+            <a href="/admin/" class="nav-button">Administración</a>
+        </div>
+        
+        <div class="vehicle-header">
+            <div class="vehicle-title">{{ vehicle.get_full_name }}</div>
+            <div class="vehicle-plate">{{ vehicle.license_plate }}</div>
+            <p>Vehículo registrado el {{ vehicle.created_at|date:"d/m/Y" }}</p>
+        </div>
+        
+        <div class="vehicle-info">
+            <h2 class="section-title">Información del Vehículo</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Marca</span>
+                    <span class="info-value">{{ vehicle.brand }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Modelo</span>
+                    <span class="info-value">{{ vehicle.model }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Año</span>
+                    <span class="info-value">{{ vehicle.year }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tipo</span>
+                    <span class="info-value">{{ vehicle.get_vehicle_type_display }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Combustible</span>
+                    <span class="info-value">{{ vehicle.get_fuel_type_display }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Color</span>
+                    <span class="info-value">{{ vehicle.color }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="vehicle-info">
+            <h2 class="section-title">Información del Propietario</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Nombre</span>
+                    <span class="info-value">{{ vehicle.owner_name }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Teléfono</span>
+                    <span class="info-value">{{ vehicle.owner_phone }}</span>
+                </div>
+                {% if vehicle.owner_email %}
+                <div class="info-item">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">{{ vehicle.owner_email }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="maintenances-section">
+            <h2 class="section-title">Historial de Mantenimientos</h2>
+            {% if maintenances %}
+                {% for maintenance in maintenances %}
+                <div class="maintenance-item">
+                    <div class="maintenance-header">
+                        <div class="maintenance-title">{{ maintenance.maintenance_type.name }}</div>
+                        <span class="status-badge status-{{ maintenance.status }}">
+                            {{ maintenance.get_status_display }}
+                        </span>
+                    </div>
+                    <div class="maintenance-meta">
+                        <span>📅 {{ maintenance.scheduled_date|date:"d/m/Y H:i" }}</span>
+                        {% if maintenance.cost %}
+                        <span>💰 ${{ maintenance.cost|floatformat:0 }}</span>
+                        {% endif %}
+                        <span>📝 {{ maintenance.created_at|date:"d/m/Y" }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <h3>No hay mantenimientos registrados</h3>
+                    <p>Este vehículo no tiene mantenimientos programados o realizados.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+        {% if upcoming_maintenances %}
+        <div class="maintenances-section">
+            <h2 class="section-title">Próximos Mantenimientos</h2>
+            {% for maintenance in upcoming_maintenances %}
+            <div class="maintenance-item">
+                <div class="maintenance-header">
+                    <div class="maintenance-title">{{ maintenance.maintenance_type.name }}</div>
+                    <span class="status-badge status-{{ maintenance.status }}">
+                        {{ maintenance.get_status_display }}
+                    </span>
+                </div>
+                <div class="maintenance-meta">
+                    <span>📅 {{ maintenance.scheduled_date|date:"d/m/Y H:i" }}</span>
+                    <span>⏱️ {{ maintenance.maintenance_type.estimated_duration }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="action-buttons">
+            <a href="/admin/mantencion/maintenance/add/?vehicle={{ vehicle.id }}" class="action-button">
+                Programar Mantenimiento
+            </a>
+            <a href="/admin/mantencion/vehicle/{{ vehicle.id }}/change/" class="action-button secondary">
+                Editar Vehículo
+            </a>
+            <a href="{% url 'mantencion:vehicle_list' %}" class="action-button secondary">
+                Volver a Lista
+            </a>
+        </div>
+    </div>
+</body>
+</html>
